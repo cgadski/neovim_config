@@ -52,14 +52,9 @@ function M.config()
         lualine_b = {},
         lualine_c = {
           {
-            "branch",
-            icon = "",
-            color = { fg = get_hl_prop("Conditional", "foreground", colors.purple_1), gui = "bold" },
-            padding = { left = 2, right = 1 },
-          },
-          {
-            "filetype",
+            "filename",
             cond = conditions.buffer_not_empty,
+            color = { fg = get_hl_prop("Conditional", "foreground", colors.purple_1), gui = "bold" },
             padding = { left = 2, right = 1 },
           },
           {
@@ -119,13 +114,25 @@ function M.config()
         lualine_y = {},
         lualine_z = { spacer },
       },
+      tabline = {
+        lualine_a = {
+          function ()
+            return vim.fn.getcwd()
+          end
+        },
+        lualine_b = {'branch'},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {'tabs'}
+      },
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
         lualine_y = {},
         lualine_z = {},
         lualine_c = {},
-        lualine_x = {},
+        lualine_x = {}
       },
     }))
   end

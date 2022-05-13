@@ -10,6 +10,7 @@ function M.config()
         javascript = { "string", "template_string" },
         java = false,
       },
+      disable_in_macro = true,
       disable_filetype = { "TelescopePrompt", "spectre_panel" },
       fast_wrap = {
         map = "<M-e>",

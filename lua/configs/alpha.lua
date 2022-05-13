@@ -4,7 +4,6 @@ function M.config()
   local present, alpha = pcall(require, "alpha")
   if present then
     local utils = require "core.utils"
-    local plugins_count = vim.fn.len(vim.fn.globpath(vim.fn.stdpath "data" .. "/site/pack/packer/start", "*", 0, 1))
     alpha.setup(utils.user_plugin_opts("plugins.alpha", {
       layout = {
         { type = "padding", val = 2 },
@@ -16,17 +15,12 @@ function M.config()
             " ",
             " ",
             " ",
-            " █████  ███████ ████████ ██████   ██████",
-            "██   ██ ██         ██    ██   ██ ██    ██",
-            "███████ ███████    ██    ██████  ██    ██",
-            "██   ██      ██    ██    ██   ██ ██    ██",
-            "██   ██ ███████    ██    ██   ██  ██████",
+"  ___ __ _  __ _  __| |___| | _(_)",
+" / __/ _` |/ _` |/ _` / __| |/ / |",
+"| (_| (_| | (_| | (_| \\__ \\   <| |",
+" \\___\\__, |\\__,_|\\__,_|___/_|\\_\\_|",
+"     |___/                        ",
             " ",
-            "    ███    ██ ██    ██ ██ ███    ███",
-            "    ████   ██ ██    ██ ██ ████  ████",
-            "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-            "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-            "    ██   ████   ████   ██ ██      ██",
             " ",
             " ",
             " ",
@@ -42,28 +36,12 @@ function M.config()
           val = {
             utils.alpha_button("LDR f f", "  Find File  "),
             utils.alpha_button("LDR f o", "  Recents  "),
-            utils.alpha_button("LDR f w", "  Find Word  "),
-            utils.alpha_button("LDR f n", "  New File  "),
             utils.alpha_button("LDR f m", "  Bookmarks  "),
-            utils.alpha_button("LDR S l", "  Last Session  "),
           },
           opts = {
             spacing = 1,
           },
-        },
-        {
-          type = "text",
-          val = {
-            " ",
-            " ",
-            " ",
-            " AstroNvim loaded " .. plugins_count .. " plugins ",
-          },
-          opts = {
-            position = "center",
-            hl = "DashboardFooter",
-          },
-        },
+        }
       },
       opts = {},
     }))

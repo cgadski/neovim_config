@@ -39,3 +39,6 @@ local polish = utils.user_plugin_opts("polish", nil, false)
 if type(polish) == "function" then
   polish()
 end
+
+vim.o.guifont = "SauceCodePro Nerd Font"
+

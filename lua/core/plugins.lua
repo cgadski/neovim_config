@@ -2,9 +2,7 @@ local packer_status_ok, packer = pcall(require, "packer")
 if packer_status_ok then
   local astro_plugins = {
     -- Plugin manager
-    {
-      "wbthomason/packer.nvim",
-    },
+    { "wbthomason/packer.nvim", },
 
     -- Optimiser
     { "lewis6991/impatient.nvim" },
@@ -61,15 +59,6 @@ if packer_status_ok then
       "kyazdani42/nvim-web-devicons",
       config = function()
         require("configs.icons").config()
-      end,
-    },
-
-    -- Bufferline
-    {
-      "akinsho/bufferline.nvim",
-      after = "nvim-web-devicons",
-      config = function()
-        require("configs.bufferline").config()
       end,
     },
 
@@ -253,14 +242,14 @@ if packer_status_ok then
     },
 
     -- Fuzzy finder syntax support
-    {
-      ("nvim-telescope/telescope-%s-native.nvim"):format(vim.fn.has "win32" == 1 and "fzy" or "fzf"),
-      after = "telescope.nvim",
-      run = "make",
-      config = function()
-        require("telescope").load_extension(vim.fn.has "win32" == 1 and "fzy_native" or "fzf")
-      end,
-    },
+    -- {
+    --   ("nvim-telescope/telescope-%s-native.nvim"):format(vim.fn.has "win32" == 1 and "fzy" or "fzf"),
+    --   after = "telescope.nvim",
+    --   run = "make",
+    --   config = function()
+    --     require("configs.telescope").load_extension(vim.fn.has "win32" == 1 and "fzy_native" or "fzf")
+    --   end,
+    -- },
 
     -- Git integration
     {
@@ -341,15 +330,6 @@ if packer_status_ok then
       end,
     },
 
-    -- Smooth scrolling
-    {
-      "declancm/cinnamon.nvim",
-      event = { "BufRead", "BufNewFile" },
-      config = function()
-        require("configs.cinnamon").config()
-      end,
-    },
-
     -- Smooth escaping
     {
       "max397574/better-escape.nvim",
@@ -372,6 +352,12 @@ if packer_status_ok then
         require("configs.session_manager").config()
       end,
     },
+
+    -- Vim Exchange
+    { "tommcdo/vim-exchange" },
+
+    -- Lua Repl
+    { "bfredl/nvim-luadev" },
   }
 
   packer.startup {

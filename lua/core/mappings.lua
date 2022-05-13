@@ -1,3 +1,5 @@
+---@diagnostic disable: different-requires
+
 local utils = require "core.utils"
 local map = vim.keymap.set
 
@@ -12,15 +14,9 @@ map("n", "<leader>u", require("core.utils").toggle_url_match, { desc = "Toggle U
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 map("n", "gx", utils.url_opener_cmd(), { desc = "Open the file under cursor with system app" })
 map("n", "<C-s>", "<cmd>w!<cr>", { desc = "Force write" })
-map("n", "<C-q>", "<cmd>q!<cr>", { desc = "Force quit" })
 map("n", "Q", "<Nop>")
-
-map("n", "go", vim.diagnostic.open_float, { desc = "Hover diagnostics" })
-map("n", "gl", vim.diagnostic.open_float, { desc = "Hover diagnostics" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-map("n", "gk", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-map("n", "gj", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
 -- Terminal
 if utils.is_available "nvim-toggleterm.lua" then
@@ -34,41 +30,31 @@ map("n", "<leader>ps", "<cmd>PackerSync<cr>", { desc = "Packer Sync" })
 map("n", "<leader>pS", "<cmd>PackerStatus<cr>", { desc = "Packer Status" })
 map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", { desc = "Packer Update" })
 
+-- Lua lsp
+map("n", "<leader>lx", "<cmd>PackerUpdate<cr>", { desc = "Packer Update" })
+
 -- Alpha
 if utils.is_available "alpha-nvim" then
   map("n", "<leader>d", "<cmd>Alpha<cr>", { desc = "Alpha Dashboard" })
 end
 
 -- Bufdelete
-if utils.is_available "bufdelete.nvim" then
-  map("n", "<leader>c", "<cmd>Bdelete!<cr>", { desc = "Close buffer" })
-else
-  map("n", "<leader>c", "<cmd>bdelete!<cr>", { desc = "Close buffer" })
-end
+map("n", "<leader>c", "<cmd>Bdelete!<cr>", { desc = "Close buffer" })
 
 -- Navigate buffers
-if utils.is_available "bufferline.nvim" then
-  map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer tab" })
-  map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer tab" })
-  map("n", ">b", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer tab right" })
-  map("n", "<b", "<cmd>BufferLineMovePrev<cr>", { desc = "Move buffer tab left" })
-else
-  map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-  map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-end
+map("n", "gn", "<cmd>bn<cr>", { desc = "Next buffer" })
+map("n", "gp", "<cmd>bp<cr>", { desc = "Previous buffer" })
 
 -- Comment
-if utils.is_available "Comment.nvim" then
-  map("n", "<leader>/", function()
-    require("Comment.api").toggle_current_linewise()
-  end, { desc = "Comment line" })
-  map(
-    "v",
-    "<leader>/",
-    "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<cr>",
-    { desc = "Toggle comment line" }
-  )
-end
+map("n", "<leader>/", function()
+  require("Comment.api").toggle_current_linewise()
+end, { desc = "Comment line" })
+map(
+  "v",
+  "<leader>/",
+  "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<cr>",
+  { desc = "Toggle comment line" }
+)
 
 -- GitSigns
 if utils.is_available "gitsigns.nvim" then
@@ -136,20 +122,7 @@ if utils.is_available "smart-splits.nvim" then
   map("n", "<C-l>", function()
     require("smart-splits").move_cursor_right()
   end, { desc = "Move to right split" })
-
-  -- Resize with arrows
-  map("n", "<C-Up>", function()
-    require("smart-splits").resize_up()
-  end, { desc = "Resize split up" })
-  map("n", "<C-Down>", function()
-    require("smart-splits").resize_down()
-  end, { desc = "Resize split down" })
-  map("n", "<C-Left>", function()
-    require("smart-splits").resize_left()
-  end, { desc = "Resize split left" })
-  map("n", "<C-Right>", function()
-    require("smart-splits").resize_right()
-  end, { desc = "Resize split right" })
+  map("n", "<C-q>", "<C-w>q", { desc = "Close window" })
 else
   map("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
   map("n", "<C-j>", "<C-w>j", { desc = "Move to below split" })
@@ -232,39 +205,19 @@ if utils.is_available "telescope.nvim" then
   end, { desc = "Search diagnostics" })
 end
 
--- Terminal
-if utils.is_available "nvim-toggleterm.lua" then
-  map("n", "<leader>gg", function()
-    utils.toggle_term_cmd "lazygit"
-  end, { desc = "ToggleTerm lazygit" })
-  map("n", "<leader>tn", function()
-    utils.toggle_term_cmd "node"
-  end, { desc = "ToggleTerm node" })
-  map("n", "<leader>tu", function()
-    utils.toggle_term_cmd "ncdu"
-  end, { desc = "ToggleTerm NCDU" })
-  map("n", "<leader>tt", function()
-    utils.toggle_term_cmd "htop"
-  end, { desc = "ToggleTerm htop" })
-  map("n", "<leader>tp", function()
-    utils.toggle_term_cmd "python"
-  end, { desc = "ToggleTerm python" })
-  map("n", "<leader>tl", function()
-    utils.toggle_term_cmd "lazygit"
-  end, { desc = "ToggleTerm lazygit" })
-  map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })
-  map("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "ToggleTerm horizontal split" })
-  map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "ToggleTerm vertical split" })
-end
-
 -- Stay in indent mode
 map("v", "<", "<gv", { desc = "unindent line" })
 map("v", ">", ">gv", { desc = "indent line" })
 
 -- Improved Terminal Mappings
-map("t", "<esc>", "<C-\\><C-n>", { desc = "Terminal normal mode" })
-map("t", "jk", "<C-\\><C-n>", { desc = "Terminal normal mode" })
-map("t", "<C-h>", "<c-\\><c-n><c-w>h", { desc = "Terminal left window navigation" })
-map("t", "<C-j>", "<c-\\><c-n><c-w>j", { desc = "Terminal down window navigation" })
-map("t", "<C-k>", "<c-\\><c-n><c-w>k", { desc = "Terminal up window navigation" })
-map("t", "<C-l>", "<c-\\><c-n><c-w>l", { desc = "Terminal right window naviation" })
+map("t", "<c-x>", "<c-\\><c-n>", { desc = "Terminal normal mode" })
+map("t", "<c-h>", "<c-\\><c-n><c-w>h", { desc = "Terminal left window navigation" })
+map("t", "<c-j>", "<c-\\><c-n><c-w>j", { desc = "Terminal down window navigation" })
+map("t", "<c-k>", "<c-\\><c-n><c-w>k", { desc = "Terminal up window navigation" })
+map("t", "<c-l>", "<c-\\><c-n><c-w>l", { desc = "Terminal right window naviation" })
+
+-- lua REPL
+map("n", "<leader>x", ":Luadev<cr>", { desc = "Open Lua output" })
+map("v", "<leader>x", "<cr><Plug>(Luadev-Run)", { desc = "Run Lua code" })
+map("n", "<leader>fd", ":cd %:p:h<cr>", { desc = "Cd to file"})
+
